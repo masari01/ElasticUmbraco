@@ -1,20 +1,24 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>;
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
 @{
     var content = (ContentModels.ImageItem)Model.Content;
-    MediaWithCrops item = content.Image;
+   
     //var settings = (ContentModels.MyElementTypeAliasOfSettings)Model.Settings;
 }
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
+      @{
+      var itemIndex=0;
         @foreach(MediaWithCrops item in content.Image)
         {
-            <div class="carousel-item active">
-                <img class="d-block w-50" src="@item.MediaUrl()">
+                var isFirstSlide = itemIndex == 0;
+                <div class="carousel-item @(isFirstSlide ? "active" : null)">
+                <img class="d-block w-50" src="@item.GetCropUrl()">
             </div>
-
+            itemIndex++;
         }
-
+        }
   </div>
   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
